@@ -10,3 +10,6 @@ spring:
     username: postgres
     password: postgres
     url: jdbc:postgresql://localhost:5432/credit_app_dio
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
