@@ -3,8 +3,10 @@ package edu.victor.creditapplication.Service.implementation
 import edu.victor.creditapplication.Model.Credit
 import edu.victor.creditapplication.Repository.CreditRepository
 import edu.victor.creditapplication.Service.ICreditService
+import org.springframework.stereotype.Component
 import java.util.*
 
+@Component
 class CreditService(
         private val creditRepository: CreditRepository,
         private val customerService: CustomerService

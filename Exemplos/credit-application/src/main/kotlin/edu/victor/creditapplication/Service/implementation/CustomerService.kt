@@ -1,9 +1,12 @@
 package edu.victor.creditapplication.Service.implementation
 
+import edu.victor.creditapplication.Exception.BusinessException
 import edu.victor.creditapplication.Model.Customer
 import edu.victor.creditapplication.Repository.CustomerRepository
 import edu.victor.creditapplication.Service.ICustomerService
+import org.springframework.stereotype.Component
 
+@Component
 class CustomerService(
         private val customerRepository: CustomerRepository
 ): ICustomerService {
@@ -14,7 +17,7 @@ class CustomerService(
 
     override fun findByID(id: Long): Customer =
         this.customerRepository.findById(id).orElseThrow{
-            throw RuntimeException("Id $id not found.")
+            throw BusinessException("Id $id not found.")
         }
 
 
