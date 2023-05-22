@@ -1,0 +1,15 @@
+spring:
+  jpa:
+    show-sql: true
+    database-plataform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      properties:
+        hibernate.format_sql: true
+  datasource:
+    driverClassName: org.postgresql.Driver
+    username: postgres
+    password: postgres
+    url: jdbc:postgresql://localhost:5432/credit_app_dio_test
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html
