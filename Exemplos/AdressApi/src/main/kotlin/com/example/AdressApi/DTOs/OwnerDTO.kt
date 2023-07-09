@@ -13,7 +13,7 @@ data class OwnerDTO (
 
     @field:NotEmpty(message = "Empty Field.")
     @field:NotNull(message = "Field can not be null")
-    val lasttName: String,
+    val lastName: String,
 
     @field:NotEmpty(message = "Empty Field.")
     @field:NotNull(message = "Field can not be null")
@@ -24,10 +24,10 @@ data class OwnerDTO (
     @field:NotNull(message = "Field can not be null")
     val identidade: String,
 
-){
+    ){
     fun toEntity(): Owner = Owner(
         firstName = this.firstName,
-        lastName = this.lasttName,
+        lastName = this.lastName,
         cpf = this.cpf,
         identidade = this.identidade
     )

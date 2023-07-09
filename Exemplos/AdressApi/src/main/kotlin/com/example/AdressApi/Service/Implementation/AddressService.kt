@@ -5,7 +5,9 @@ import com.example.AdressApi.Models.Owner
 import com.example.AdressApi.Repositories.AddressRepository
 import com.example.AdressApi.Repositories.OwnerRepository
 import com.example.AdressApi.Service.IAddressService
+import org.springframework.stereotype.Component
 
+@Component
 class AddressService(
     private val ownerRepository: OwnerRepository,
     private val addressRepository: AddressRepository
@@ -16,16 +18,6 @@ class AddressService(
         return savedAddress
     }
 
-    override fun save(address: Address, owner: Owner): Address {
-        val existingOwner = ownerRepository.findById(owner.id!!).orElse(null)
-        if (existingOwner != null) {
-            address.owner = existingOwner
-            val savedAddress = addressRepository.save(address)
-            return savedAddress
-        }
-        throw IllegalArgumentException("Owner not found")
-    }
-
     override fun findById(id: Long): Address? {
         return addressRepository.findById(id).orElse(null)
     }
@@ -34,20 +26,16 @@ class AddressService(
         addressRepository.findByCep(cep)
 
 
-    override fun findByLograudoro(lograudoro: String): List<Address> =
-        addressRepository.findByLograudoro(lograudoro)
+    override fun findByLogradouro(lograudoro: String): List<Address> =
+        addressRepository.findByLogradouro(lograudoro)
 
 
     override fun findByBairro(bairro: String): List<Address> =
         addressRepository.findByBairro(bairro)
 
 
-    override fun findByCidade(cidade: String): List<Address> =
-        addressRepository.findByCidade(cidade)
-
-
-    override fun findByOwner(ownerId: Long): List<Address> =
-        addressRepository.findByOwner(ownerId)
+    override fun findByLocalidade(cidade: String): List<Address> =
+        addressRepository.findByLocalidade(cidade)
 
 
     override fun deleteById(id: Long): Address? {
@@ -57,5 +45,10 @@ class AddressService(
         }
         return existingAddress
     }
+
+    override fun findByOwner(ownerId: Long): List<Address> {
+        return addressRepository.findByOwner(ownerId)
+    }
+
 
 }

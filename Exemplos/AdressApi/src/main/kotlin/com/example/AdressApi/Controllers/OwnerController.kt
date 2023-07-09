@@ -38,11 +38,11 @@ class OwnerController(
         }
     }
 
-    @GetMapping("/address/id/{id}")
-    fun findByAddress(@PathVariable id: Long): ResponseEntity<OwnerView> {
-        val owner = this.ownerService.findByAddress(id)
-        if (owner == null){
-            return ResponseEntity.notFound().build();
+    @GetMapping("/address/{addressId}")
+    fun findByAddress(@PathVariable addressId: Long): ResponseEntity<OwnerView> {
+        val owner = ownerService.findByAddressId(addressId)
+        if (owner == null) {
+            return ResponseEntity.notFound().build()
         } else {
             return ResponseEntity.status(HttpStatus.OK).body(OwnerView(owner))
         }
@@ -54,7 +54,7 @@ class OwnerController(
         val existingOwner = this.ownerService.findByCpf(cpf) ?: return ResponseEntity.notFound().build()
         existingOwner.apply {
             this.firstName = ownerDTO.firstName
-            this.lastName = ownerDTO.lasttName
+            this.lastName = ownerDTO.lastName
             this.cpf = ownerDTO.cpf
             this.identidade = ownerDTO.identidade
         }
@@ -72,14 +72,5 @@ class OwnerController(
         }
     }
 
-    @DeleteMapping("/address/id/{id}")
-    fun deleteByAddress(@PathVariable id: Long): ResponseEntity<Unit> {
-        val deletedOwner = ownerService.deleteByAddress(id)
-        return if (deletedOwner != null) {
-            ResponseEntity.ok().build()
-        } else {
-            ResponseEntity.notFound().build()
-        }
-    }
 
 }

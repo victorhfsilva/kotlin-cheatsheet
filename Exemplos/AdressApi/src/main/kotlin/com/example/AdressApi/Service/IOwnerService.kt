@@ -7,8 +7,8 @@ interface IOwnerService {
 
     fun save (owner: Owner): Owner
     fun findByCpf (cpf: String): Owner?
-    fun findByAddress (addressId: Long): Owner?
     fun deleteByCpf (cpf: String): Owner?
-    fun deleteByAddress (addressId: Long): Owner?
 
+    fun findById(id: Long): Owner?
+    fun findByAddressId(addressId: Long): Owner?
 }

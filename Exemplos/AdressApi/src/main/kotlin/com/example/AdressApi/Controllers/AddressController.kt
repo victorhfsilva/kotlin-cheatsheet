@@ -4,10 +4,8 @@ import com.example.AdressApi.DTOs.AddressDTO
 import com.example.AdressApi.Service.Implementation.AddressService
 import com.example.AdressApi.Service.Implementation.OwnerService
 import com.example.AdressApi.Views.AddressView
-import com.example.AdressApi.Views.OwnerView
 import jakarta.validation.Valid
 import org.springframework.http.HttpStatus
-import org.springframework.http.HttpStatusCode
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.DeleteMapping
 import org.springframework.web.bind.annotation.GetMapping
@@ -21,13 +19,13 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("/address")
 class AddressController (
-    private val ownerService: OwnerService,
-    private val addressService: AddressService
+    private val addressService: AddressService,
+    private val ownerService: OwnerService
     ) {
 
     @PostMapping
     fun saveOwner(@RequestBody @Valid addressDTO: AddressDTO): ResponseEntity<AddressView> {
-        val savedAddress = this.addressService.save(addressDTO.toEntity())
+        val savedAddress = this.addressService.save(addressDTO.toEntity(ownerService))
         return ResponseEntity.status(HttpStatus.CREATED).body(AddressView(savedAddress))
     }
 
@@ -45,7 +43,7 @@ class AddressController (
 
     @GetMapping("/logradouro/{logradouro}")
     fun findByLogradouro(@PathVariable logradouro: String): ResponseEntity<List<AddressView>> {
-        val addresses = this.addressService.findByLograudoro(logradouro)
+        val addresses = this.addressService.findByLogradouro(logradouro)
         if (addresses.isEmpty()) {
             return ResponseEntity.notFound().build()
         } else {
@@ -67,7 +65,7 @@ class AddressController (
 
     @GetMapping("/cidade/{cidade}")
     fun findByCidade(@PathVariable cidade: String): ResponseEntity<List<AddressView>> {
-        val addresses = this.addressService.findByCidade(cidade)
+        val addresses = this.addressService.findByLocalidade(cidade)
         if (addresses.isEmpty()) {
             return ResponseEntity.notFound().build()
         } else {
@@ -78,7 +76,7 @@ class AddressController (
 
     @GetMapping("/owner/{ownerId}")
     fun findByOwner(@PathVariable ownerId: Long): ResponseEntity<List<AddressView>> {
-        val addresses = this.addressService.findByOwner(ownerId)
+        val addresses = addressService.findByOwner(ownerId)
         if (addresses.isEmpty()) {
             return ResponseEntity.notFound().build()
         } else {
@@ -113,7 +111,7 @@ class AddressController (
             complemento = addressDTO.complemento
             localidade = addressDTO.localidade
             uf = addressDTO.uf
-            owner = addressDTO.owner
+            owner = addressDTO.toEntity(ownerService).owner
         }
 
         val updatedAddress = addressService.save(existingAddress)

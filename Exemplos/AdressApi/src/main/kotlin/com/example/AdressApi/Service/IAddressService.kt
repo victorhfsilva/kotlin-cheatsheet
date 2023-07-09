@@ -7,13 +7,12 @@ import org.springframework.data.repository.query.Param
 interface IAddressService {
 
     fun save(address: Address): Address
-    fun save(address: Address, owner: Owner): Address
+//    fun save(address: Address, owner: Owner): Address
     fun findById(id: Long): Address?
     fun findByCep(cep: String): List<Address>
-    fun findByLograudoro(lograudoro: String): List<Address>
+    fun findByLogradouro(lograudoro: String): List<Address>
     fun findByBairro(bairro: String): List<Address>
-    fun findByCidade(cidade: String): List<Address>
-    fun findByOwner(ownerId: Long): List<Address>
+    fun findByLocalidade(cidade: String): List<Address>
     fun deleteById(id: Long): Address?
-
+    fun findByOwner(ownerId: Long): List<Address>
 }

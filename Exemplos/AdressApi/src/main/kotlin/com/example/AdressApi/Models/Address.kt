@@ -34,7 +34,8 @@ data class Address (
     var uf: String,
 
     @ManyToOne
-    var owner: Owner? = null,
+    @JoinColumn(name = "owner_id")
+    var owner: Owner?,
 
     @Column(nullable = false)
     var creationDate : LocalDateTime = LocalDateTime.now(),

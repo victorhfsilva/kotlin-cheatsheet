@@ -20,6 +20,6 @@ data class AddressView (
         complemento = address.complemento,
         localidade = address.localidade,
         uf = address.uf,
-        ownerName = address.owner?.firstName + address.owner?.lastName ?: ""
+        ownerName = "${address.owner?.firstName} ${address.owner?.lastName}"
     )
 }

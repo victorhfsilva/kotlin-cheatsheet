@@ -12,6 +12,6 @@ interface OwnerRepository: JpaRepository<Owner, Long> {
 
     fun findByCpf(cpf: String): Owner?
 
-    @Query(value = "SELECT * FROM owner WHERE address_id = :addressId")
-    fun findByAddress(@Param("addressId") addressId: Long): Owner?
+    @Query("SELECT o FROM Owner o JOIN o.addresses a WHERE a.id = :addressId")
+    fun findByAddressId(@Param("addressId") addressId: Long): Owner?
 }

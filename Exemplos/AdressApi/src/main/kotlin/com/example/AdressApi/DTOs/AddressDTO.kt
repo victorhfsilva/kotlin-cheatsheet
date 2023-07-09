@@ -2,6 +2,8 @@ package com.example.AdressApi.DTOs
 
 import com.example.AdressApi.Models.Address
 import com.example.AdressApi.Models.Owner
+import com.example.AdressApi.Repositories.OwnerRepository
+import com.example.AdressApi.Service.Implementation.OwnerService
 import jakarta.validation.constraints.NotEmpty
 import jakarta.validation.constraints.NotNull
 
@@ -36,18 +38,21 @@ data class AddressDTO(
     var uf: String,
 
     @field:NotNull(message = "Field can not be null")
-    var owner: Owner,
+    var ownerId: Long,
 ) {
 
-    fun toEntity(): Address = Address(
-        cep = this.cep,
-        logradouro = this.logradouro,
-        numero = this.numero,
-        bairro = this.bairro,
-        complemento = this.complemento,
-        localidade = this.localidade,
-        uf = this.uf,
-        owner = this.owner
-    )
+    fun toEntity(ownerService: OwnerService): Address {
+        val owner = ownerService.findById(ownerId)
 
+        return Address(
+            cep = this.cep,
+            logradouro = this.logradouro,
+            numero = this.numero,
+            bairro = this.bairro,
+            complemento = this.complemento,
+            localidade = this.localidade,
+            uf = this.uf,
+            owner = owner
+        )
+    }
 }
