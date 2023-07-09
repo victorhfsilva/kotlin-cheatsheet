@@ -87,7 +87,7 @@ fun printAll (prefix : String, vararg messages: String){
 	}
 }
 fun main(){
-	printAll(prefix = "Garota n°: ", "Camila", "Dieina", "Bruna")
+	printAll(prefix = "Index: ", "Banana", "Apple", "Pineapple")
 }
 ```
 

@@ -33,7 +33,7 @@ for ((index, fruit) in fruits.withIndex()) {
 Iterando sobre um mapa.
 
 ```
-val map = mapOf("chave1" para "valor1", "chave2" para "valor2", "chave3" para "valor3")
+val map = mapOf("chave1" to "valor1", "chave2" to "valor2", "chave3" to "valor3")
 
 for ((key, value) in map) {
     println("Chave: $key, Valor: $value")
