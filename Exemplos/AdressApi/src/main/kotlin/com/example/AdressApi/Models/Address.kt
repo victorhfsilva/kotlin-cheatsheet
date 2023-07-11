@@ -35,11 +35,18 @@ data class Address (
 
     @ManyToOne
     @JoinColumn(name = "owner_id")
-    var owner: Owner?,
+    var owner: Owner? = null,
 
     @Column(nullable = false)
     var creationDate : LocalDateTime = LocalDateTime.now(),
 
     @Column(nullable = false)
     var active: Boolean = true
-)
+){
+
+    // Override the toString() method excluding the owner property
+    override fun toString(): String {
+        return "Address(id=$id, cep='$cep', logradouro='$logradouro', numero='$numero', bairro='$bairro', complemento='$complemento', localidade='$localidade', uf='$uf', creationDate=$creationDate, active=$active)"
+    }
+
+}
