@@ -5,7 +5,7 @@ import com.example.AdressApi.Models.Address
 data class AddressView (
     val cep: String,
     val lograudoro: String,
-    val numero: String,
+    val numero: Int,
     val bairro: String,
     val complemento: String,
     val localidade: String,

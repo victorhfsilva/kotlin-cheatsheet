@@ -28,41 +28,36 @@ class OwnerRepositoryTest {
     lateinit var testEntityManager: TestEntityManager
 
     private lateinit var owner1: Owner
-    private lateinit var owner2: Owner
 
     private lateinit var address1: Address
     private lateinit var address2: Address
+
+    private lateinit var addresses: List<Address>
 
     @BeforeEach
     fun setup() {
         addressRepository.deleteAll()
         ownerRepository.deleteAll()
 
-        address1 = Address(
-            cep = "64608435",
-            logradouro = "Street B",
-            numero = "2",
-            bairro = "Neighborhood B",
-            localidade = "City 2",
-            uf = "State 2")
-
-        address2 = Address(
+        address1 = testEntityManager.persist(buildAddress())
+        address2 = testEntityManager.persist(buildAddress(
             cep = "55004072",
-            logradouro = "Street A",
-            numero = "1",
-            bairro = "Neighborhood A",
+            logradouro = "Street B",
+            numero = 25,
+            bairro = "Neighborhood B",
             localidade = "City 1",
-            uf = "State 1")
+            uf = "State 1"
+        ))
 
-        owner1 = testEntityManager.persist(buildFirstOwner(addresses = listOf(address1)))
-        owner2 = testEntityManager.persist(buildSecondOwner(addresses = listOf(address2)))
+        addresses = listOf(address1, address2)
 
-        owner1.addresses[0].owner = owner1
-        owner2.addresses[0].owner = owner2
+        owner1 = testEntityManager.persist(buildOwner(addresses = listOf(address1))).also {
+            it.addresses.first().owner = it
+        }
 
     }
 
-    private fun buildFirstOwner(
+    private fun buildOwner(
         firstName: String = "John",
         lastName: String = "Doe",
         cpf: String = "68710381910",
@@ -76,27 +71,27 @@ class OwnerRepositoryTest {
         addresses = addresses
     )
 
-    private fun buildSecondOwner(
-        firstName: String = "Janice",
-        lastName: String = "Crystal",
-        cpf: String = "27127772550",
-        identidade: String = "ID321",
-        addresses: List<Address> = emptyList()
-    ) = Owner (
-        firstName = firstName,
-        lastName = lastName,
-        cpf = cpf,
-        identidade = identidade,
-        addresses = addresses
+    private fun buildAddress (
+    cep: String = "64608435",
+    logradouro: String = "Street A",
+    numero: Int = 14,
+    bairro: String = "Neighborhood A",
+    localidade: String = "City 1",
+    uf: String = "State 1") = Address (
+        cep = cep,
+        logradouro = logradouro,
+        numero = numero,
+        bairro = bairro,
+        localidade = localidade,
+        uf = uf
     )
 
     @Test
     fun `should find owner by CPF`() {
         // Given
-        val cpf1 = "68710381910"
+        val cpf1 = owner1.cpf
         val cpf2 = "27127772550"
-        owner1.cpf = cpf1
-        owner2.cpf = cpf2
+
 
         // When
         val fakeOwner1: Owner? = ownerRepository.findByCpf(cpf1)
@@ -104,22 +99,22 @@ class OwnerRepositoryTest {
 
         // Then
         Assertions.assertThat(fakeOwner1).isNotNull
-        Assertions.assertThat(fakeOwner2).isNotNull
+        Assertions.assertThat(fakeOwner2).isNull()
         Assertions.assertThat(fakeOwner1).isSameAs(owner1)
-        Assertions.assertThat(fakeOwner2).isSameAs(owner2)
+        Assertions.assertThat(fakeOwner2).isNotSameAs(owner1)
     }
 
     @Test
     fun `should find owner by address id`() {
         // When
         val fakeOwner1: Owner? = ownerRepository.findByAddressId(address1.id!!)
-        val fakeOwner2: Owner? = ownerRepository.findByAddressId(address2.id!!)
+        val fakeOwner2: Owner? = ownerRepository.findByAddressId(address1.id!!+1)
 
         // Then
         Assertions.assertThat(fakeOwner1).isNotNull
-        Assertions.assertThat(fakeOwner2).isNotNull
+        Assertions.assertThat(fakeOwner2).isNull()
         Assertions.assertThat(fakeOwner1).isSameAs(owner1)
-        Assertions.assertThat(fakeOwner2).isSameAs(owner2)
+        Assertions.assertThat(fakeOwner2).isNotSameAs(owner1)
     }
 
 }

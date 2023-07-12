@@ -19,7 +19,7 @@ data class AddressDTO(
 
     @field:NotEmpty(message = "Empty Field.")
     @field:NotNull(message = "Field can not be null")
-    var numero: String,
+    var numero: Int,
 
     @field:NotEmpty(message = "Empty Field.")
     @field:NotNull(message = "Field can not be null")

@@ -19,7 +19,7 @@ data class Address (
     var logradouro: String,
 
     @Column(nullable = false)
-    var numero: String,
+    var numero: Int,
 
     @Column(nullable = false)
     var bairro: String,
