@@ -41,15 +41,15 @@ class OwnerController(
     @GetMapping("/address/{addressId}")
     fun findByAddress(@PathVariable addressId: Long): ResponseEntity<OwnerView> {
         val owner = ownerService.findByAddressId(addressId)
-        if (owner == null) {
-            return ResponseEntity.notFound().build()
+        return if (owner != null) {
+            ResponseEntity.ok().body(OwnerView(owner))
         } else {
-            return ResponseEntity.status(HttpStatus.OK).body(OwnerView(owner))
+            ResponseEntity.notFound().build()
         }
     }
 
-    @PutMapping("/cpf/{ownerCpf}")
-    fun updateOwner (@RequestParam(value = "ownerCpf") cpf: String,
+    @PutMapping("/cpf/{cpf}")
+    fun updateOwner (@RequestParam(value = "cpf") cpf: String,
                      @RequestBody @Valid ownerDTO: OwnerDTO): ResponseEntity<OwnerView> {
         val existingOwner = this.ownerService.findByCpf(cpf) ?: return ResponseEntity.notFound().build()
         existingOwner.apply {
@@ -71,6 +71,4 @@ class OwnerController(
             ResponseEntity.notFound().build()
         }
     }
-
-
 }

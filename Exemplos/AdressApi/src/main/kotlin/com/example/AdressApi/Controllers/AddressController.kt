@@ -24,7 +24,7 @@ class AddressController (
     ) {
 
     @PostMapping
-    fun saveOwner(@RequestBody @Valid addressDTO: AddressDTO): ResponseEntity<AddressView> {
+    fun saveAddress(@RequestBody @Valid addressDTO: AddressDTO): ResponseEntity<AddressView> {
         val savedAddress = this.addressService.save(addressDTO.toEntity(ownerService))
         return ResponseEntity.status(HttpStatus.CREATED).body(AddressView(savedAddress))
     }

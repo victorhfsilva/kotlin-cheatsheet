@@ -17,7 +17,6 @@ data class AddressDTO(
     @field:NotNull(message = "Field can not be null")
     var logradouro: String,
 
-    @field:NotEmpty(message = "Empty Field.")
     @field:NotNull(message = "Field can not be null")
     var numero: Int,
 
@@ -38,11 +37,11 @@ data class AddressDTO(
     var uf: String,
 
     @field:NotNull(message = "Field can not be null")
-    var ownerId: Long,
+    var ownerId: Long?,
 ) {
 
     fun toEntity(ownerService: OwnerService): Address {
-        val owner = ownerService.findById(ownerId)
+        val owner = ownerService.findById(ownerId!!)
 
         return Address(
             cep = this.cep,

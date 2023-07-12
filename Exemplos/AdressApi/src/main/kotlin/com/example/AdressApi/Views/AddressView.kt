@@ -4,7 +4,7 @@ import com.example.AdressApi.Models.Address
 
 data class AddressView (
     val cep: String,
-    val lograudoro: String,
+    val logradouro: String,
     val numero: Int,
     val bairro: String,
     val complemento: String,
@@ -14,7 +14,7 @@ data class AddressView (
 ) {
     constructor(address: Address): this(
         cep = address.cep,
-        lograudoro = address.logradouro,
+        logradouro = address.logradouro,
         numero = address.numero,
         bairro = address.bairro,
         complemento = address.complemento,

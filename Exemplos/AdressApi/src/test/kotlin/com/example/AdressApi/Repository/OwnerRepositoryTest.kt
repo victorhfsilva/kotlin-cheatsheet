@@ -51,8 +51,8 @@ class OwnerRepositoryTest {
 
         addresses = listOf(address1, address2)
 
-        owner1 = testEntityManager.persist(buildOwner(addresses = listOf(address1))).also {
-            it.addresses.first().owner = it
+        owner1 = testEntityManager.persist(buildOwner(addresses = addresses)).also {
+            it.addresses.forEach { address: Address -> address.owner = it }
         }
 
     }
